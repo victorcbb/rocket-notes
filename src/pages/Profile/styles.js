@@ -14,6 +14,11 @@ export const Container = styled.div`
 
     padding: 0 7.75rem;
 
+    button {
+      background: transparent;
+      border: none;
+    }
+
     svg {
       color: ${({ theme }) => theme.COLORS.GRAY_100};
       font-size: 1.5rem;
@@ -44,6 +49,8 @@ export const Avatar = styled.div`
 
     width: 11.625rem;
     height: 11.625rem;
+    
+    object-fit: cover;
   }
 
   > label {
