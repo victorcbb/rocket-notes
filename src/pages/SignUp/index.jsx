@@ -16,7 +16,7 @@ export function SignUp() {
 
   function handleSignUp() {
     if (!name || !email || !password) {
-      return alert("PReencha todos os campos!")
+      return alert("Preencha todos os campos!")
     }
 
     api.post("/users", {
