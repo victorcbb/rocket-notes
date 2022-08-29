@@ -58,7 +58,7 @@ export function SignUp() {
         />
 
         <Input 
-          placeholder="E=mail"
+          placeholder="E-mail"
           type="email"
           icon={FiMail}
           onChange={e => setEmail((e.target.value))}
