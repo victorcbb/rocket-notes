@@ -1,27 +1,56 @@
-import { createContext, useContext, useState, useEffect } from "react"
+import { createContext, useContext, useState, useEffect, ReactNode } from "react"
 
 import { api } from "../services/api"
 
-const AuthContext = createContext({})
+export interface IUser {
+  name?: string
+  email: string
+  password?: string
+  old_password?: string
+  avatar?: string
+}
 
-function AuthProvider({ children }) {
-  const [data, setData] = useState({})
-  
-  async function signIn({ email, password }) {
+interface IData {
+  user: IUser
+  token: string
+}
+
+export interface IUpdateProfile {
+  user: IUser
+  avatarFile: string | null
+}
+
+interface AuthContextType {
+  user: IUser
+  updateProfile: ({ user, avatarFile }: IUpdateProfile) => Promise<void>
+  signIn: ({ email, password }: IUser) => Promise<void>
+  signOut: () => void
+}
+
+const AuthContext = createContext<AuthContextType>({} as AuthContextType)
+
+interface AuthProviderProps {
+  children: ReactNode
+}
+
+function AuthProvider({ children }: AuthProviderProps) {
+  const [data, setData] = useState<IData>({} as IData)
+
+  async function signIn({ email, password }: IUser) {
 
     try {
 
       const response = await api.post("/sessions", { email, password })
-      const { user, token } = response.data
-      
+      const { user, token } = response.data as IData
+
       localStorage.setItem("@rocketnotes:user", JSON.stringify(user))
       localStorage.setItem("@rocketnotes:token", token)
 
-      api.defaults.headers.authorization = `Bearer ${token}`
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
       setData({ user, token })
 
-    } catch (error) {
-      if(error.response) {
+    } catch (error: any) {
+      if (error.response) {
         alert(error.response.data.message)
       } else {
         alert("Não foi possível entrar.")
@@ -33,13 +62,13 @@ function AuthProvider({ children }) {
     localStorage.removeItem("@rocketnotes:token")
     localStorage.removeItem("@rocketnotes:user")
 
-    setData({})
+    setData({} as IData)
   }
 
-  async function updateProfile({ user, avatarFile }) {
+  async function updateProfile({ user, avatarFile }: IUpdateProfile) {
     try {
-      
-      if(avatarFile) {
+
+      if (avatarFile) {
         const fileUploadForm = new FormData()
         fileUploadForm.append("avatar", avatarFile)
 
@@ -53,8 +82,8 @@ function AuthProvider({ children }) {
       setData({ user, token: data.token })
       alert("Perfil atualizado!")
 
-    } catch (error) {
-      if(error.response) {
+    } catch (error: any) {
+      if (error.response) {
         alert(error.response.data.message)
       } else {
         alert("Não foi possível atualizar o perfil.")
@@ -66,8 +95,8 @@ function AuthProvider({ children }) {
     const token = localStorage.getItem("@rocketnotes:token")
     const user = localStorage.getItem("@rocketnotes:user")
 
-    if(token, user) {
-      api.defaults.headers.authorization = `Bearer ${token}`
+    if (token && user) {
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
       setData({
         token,
         user: JSON.parse(user)
@@ -76,18 +105,19 @@ function AuthProvider({ children }) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ 
-      signIn, 
-      signOut,   
+    <AuthContext.Provider value={{
+      signIn,
+      signOut,
       updateProfile,
       user: data.user
     }}>
       {children}
     </AuthContext.Provider>
   )
+
 }
 
-function useAuth() {
+function useAuth(): AuthContextType {
   const context = useContext(AuthContext)
 
   return context

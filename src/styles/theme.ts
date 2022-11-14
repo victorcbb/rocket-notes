@@ -12,4 +12,4 @@ export default {
 
     RED: "#FF002E"
   }
-}
+} as const

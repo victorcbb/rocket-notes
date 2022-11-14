@@ -9,8 +9,25 @@ import { Tag } from "../../components/Tag"
 import { ButtonText } from "../../components/ButtonText"
 import { api } from "../../services/api"
 
+interface ILinks {
+  id: string
+  url: string
+}
+
+interface ITags {
+  id: string
+  name: string
+}
+
+interface IData {
+  title: string
+  description: string
+  links: ILinks[]
+  tags: ITags[]
+}
+
 export function Details() {
-  const [data, setData] = useState(null)
+  const [data, setData] = useState<IData | null>(null)
 
   const params = useParams()
   const navigate = useNavigate()

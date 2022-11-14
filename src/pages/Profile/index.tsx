@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, ChangeEvent } from "react"
 import { FiArrowLeft, FiUser, FiMail, FiLock, FiCamera } from "react-icons/fi"
 import { useNavigate } from "react-router-dom"
 
@@ -39,7 +39,7 @@ export function Profile() {
     await updateProfile({ user, avatarFile })
   }
 
-  async function handleChangeAvatar(event) {
+  async function handleChangeAvatar(event: any) {
     const file = event.target.files[0]
     setAvatarFile(file)
 
@@ -79,26 +79,26 @@ export function Profile() {
           type="text"
           icon={FiUser}
           value={name}
-          onChange={e => setName(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
         />
         <Input
           placeholder="E-mail"
           type="email"
           icon={FiMail}
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
         />
         <Input
           placeholder="Senha"
           type="password"
           icon={FiLock}
-          onChange={e => setPasswordOld(e.target.value)}
+          onChange={(e: ChangeEvent<any>) => setPasswordOld(e.target.value)}
         />
         <Input
           placeholder="Nova senha"
           type="password"
           icon={FiLock}
-          onChange={e => setPasswordNew(e.target.value)}
+          onChange={(e: ChangeEvent<any>) => setPasswordNew(e.target.value)}
         />
 
         <Button title="Salvar" onClick={handleUpdate} />

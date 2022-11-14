@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { FiMail, FiLock, FiUser } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -54,21 +54,21 @@ export function SignUp() {
           placeholder="Nome"
           type="text"
           icon={FiUser}
-          onChange={e => setName(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
         />
 
         <Input 
           placeholder="E-mail"
           type="email"
           icon={FiMail}
-          onChange={e => setEmail((e.target.value))}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail((e.target.value))}
         />
 
         <Input 
           placeholder="Senha"
           type="password"
           icon={FiLock}
-          onChange={e => setPassword((e.target.value))}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword((e.target.value))}
         />
 
         <Button title="Cadastrar" onClick={handleSignUp} />

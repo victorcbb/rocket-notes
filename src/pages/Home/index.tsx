@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, ChangeEvent } from "react"
 import { FiPlus, FiSearch } from "react-icons/fi"
 import { useNavigate } from "react-router-dom"
 
@@ -11,15 +11,24 @@ import { Note } from "../../components/Note"
 import { Section } from "../../components/Section"
 import { api } from "../../services/api"
 
+interface ITags {
+  id: string
+  name: string
+}
+
+interface INotes {
+  id: string
+}
+
 export function Home() {
   const [search, setSearch] = useState("") 
-  const [tags, setTags] = useState([])
-  const [tagsSelected, setTagsSelected] = useState([])
-  const [notes, setNotes] = useState([])
+  const [tags, setTags] = useState<ITags[]>([])
+  const [tagsSelected, setTagsSelected] = useState<string[]>([])
+  const [notes, setNotes] = useState<INotes[]>([])
 
   const navigate = useNavigate()
 
-  function handleTagsSelected(tagName) {
+  function handleTagsSelected(tagName: string | "all") {
     const alreadySelected = tagsSelected.includes(tagName)
 
     if (alreadySelected) {
@@ -32,7 +41,7 @@ export function Home() {
 
   }
 
-  function handleDetails(id) {
+  function handleDetails(id: string) {
     navigate(`/details/${id}`)
   }
 
@@ -93,7 +102,7 @@ export function Home() {
         <Input 
           placeholder="Pesquisar pelo título" 
           icon={FiSearch} 
-          onChange={(e) => setSearch(e.target.value)}  
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}  
         />
       </Search>
 
