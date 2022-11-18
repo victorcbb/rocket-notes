@@ -9,7 +9,7 @@ this frontend was developed in react + vite to post study notes through a regist
 
 ### Current Stack :technologist:
 - `HTML`
-- `JavaScript`
+- `Typescript`
 - `React` + `vite`
 - `Nodejs`
 - `Styled-components`
