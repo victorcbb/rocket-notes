@@ -11,7 +11,6 @@ this frontend was developed in react + vite to post study notes through a regist
 - `HTML`
 - `Typescript`
 - `React` + `vite`
-- `Nodejs`
 - `Styled-components`
 
 This web-app is live in: https://rocketnotesfront.netlify.app/
