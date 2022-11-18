@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import { HTMLProps } from "react"
+import styled from "styled-components"
 import backgroundImg from "../../assets/background.png"
 
 export const Container = styled.div`
@@ -8,7 +9,7 @@ export const Container = styled.div`
   align-items: stretch;
 `
 
-export const Form = styled.form`
+export const Form = styled.form<HTMLProps<HTMLFormElement>>`
   padding: 0 8.5rem;
 
   display: flex;

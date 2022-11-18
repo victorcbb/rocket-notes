@@ -1,6 +1,10 @@
 import  styled from "styled-components"
 
-export const Container = styled.div`
+interface IProps {
+  isNew: boolean
+}
+
+export const Container = styled.div<IProps>`
   display: flex;
   align-items: center;
 

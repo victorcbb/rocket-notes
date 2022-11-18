@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { FiMail, FiLock, FiUser } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -11,10 +11,13 @@ export function SignUp() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
   
   const navigate = useNavigate()
 
   function handleSignUp() {
+    setLoading(true)
+
     if (!name || !email || !password) {
       return alert("Preencha todos os campos!")
     }
@@ -30,9 +33,11 @@ export function SignUp() {
     })
     .catch(error => {
       if (error.response) {
-        alert(error.response.data.message)  
+        alert(error.response.data.message)
+        setLoading(false)
       } else {
         alert("Não foi possível cadastrar")
+        setLoading(false)
       }
     })
   }
@@ -54,24 +59,29 @@ export function SignUp() {
           placeholder="Nome"
           type="text"
           icon={FiUser}
-          onChange={e => setName(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
         />
 
         <Input 
           placeholder="E-mail"
           type="email"
           icon={FiMail}
-          onChange={e => setEmail((e.target.value))}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail((e.target.value))}
         />
 
         <Input 
           placeholder="Senha"
           type="password"
           icon={FiLock}
-          onChange={e => setPassword((e.target.value))}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword((e.target.value))}
         />
 
-        <Button title="Cadastrar" onClick={handleSignUp} />
+        <Button 
+          type='submit'
+          title="Cadastrar"
+          loading={loading}
+          onClick={handleSignUp}
+        />
 
         <Link to="/">Voltar para o login</Link>
 
