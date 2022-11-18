@@ -11,13 +11,15 @@ import { Note } from "../../components/Note"
 import { Section } from "../../components/Section"
 import { api } from "../../services/api"
 
-interface ITags {
+export interface ITags {
   id: string
   name: string
 }
 
-interface INotes {
+export interface INotes {
   id: string
+  title: string
+  tags: ITags[]
 }
 
 export function Home() {

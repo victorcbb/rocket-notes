@@ -11,7 +11,7 @@ export function SignIn() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const { signIn } = useAuth()
+  const { signIn, loading } = useAuth()
   
   function handleSignIn() {
     signIn({ email, password })
@@ -39,7 +39,12 @@ export function SignIn() {
           onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
         />
 
-        <Button title="Entrar" onClick={handleSignIn} />
+        <Button
+          type="submit"
+          title="Entrar" 
+          onClick={handleSignIn}
+          loading={loading}
+        />
 
         <Link to="/register">Criar conta</Link>
 

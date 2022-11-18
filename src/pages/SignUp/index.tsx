@@ -11,10 +11,13 @@ export function SignUp() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
   
   const navigate = useNavigate()
 
   function handleSignUp() {
+    setLoading(true)
+
     if (!name || !email || !password) {
       return alert("Preencha todos os campos!")
     }
@@ -30,9 +33,11 @@ export function SignUp() {
     })
     .catch(error => {
       if (error.response) {
-        alert(error.response.data.message)  
+        alert(error.response.data.message)
+        setLoading(false)
       } else {
         alert("Não foi possível cadastrar")
+        setLoading(false)
       }
     })
   }
@@ -71,7 +76,12 @@ export function SignUp() {
           onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword((e.target.value))}
         />
 
-        <Button title="Cadastrar" onClick={handleSignUp} />
+        <Button 
+          type='submit'
+          title="Cadastrar"
+          loading={loading}
+          onClick={handleSignUp}
+        />
 
         <Link to="/">Voltar para o login</Link>
 

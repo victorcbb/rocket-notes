@@ -1,6 +1,12 @@
+import { ReactNode } from "react";
 import { Container } from "./styles";
 
-export function Section({ title, children }) {
+interface SectionProps {
+  title: string
+  children: ReactNode
+}
+
+export function Section({ title, children }: SectionProps) {
 
   return (
     <Container>

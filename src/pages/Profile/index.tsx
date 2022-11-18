@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react"
+import { useState, ChangeEvent, FormEvent } from "react"
 import { FiArrowLeft, FiUser, FiMail, FiLock, FiCamera } from "react-icons/fi"
 import { useNavigate } from "react-router-dom"
 
@@ -16,6 +16,7 @@ export function Profile() {
   const [email, setEmail] = useState(user.email)
   const [passwordOld, setPasswordOld] = useState()
   const [passwordNew, setPasswordNew] = useState()
+  const [loading, setLoading] = useState(false)
   
   const avatarUrl = user.avatar ? `${api.defaults.baseURL}/files/${user.avatar}` : avatarPlaceholder
 
@@ -25,18 +26,33 @@ export function Profile() {
   const navigate = useNavigate()
 
   function handleBack() {
-    navigate(-1)
+    navigate('/')
   }
 
-  async function handleUpdate() {
-    const user = {
-      name,
-      email,
-      password: passwordNew,
-      old_password: passwordOld
+  async function handleUpdate(e: FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const user = {
+        name,
+        email,
+        password: passwordNew,
+        old_password: passwordOld
+      }
+  
+      await updateProfile({ user, avatarFile })
+      
+    } catch (error: any) {
+      if (error.response) {
+        alert(error.response.data.message)
+      } else {
+        alert("Não foi possível atualizar o perfil.")
+      }
+
+    } finally {
+      setLoading(false)
     }
 
-    await updateProfile({ user, avatarFile })
   }
 
   async function handleChangeAvatar(event: any) {
@@ -56,7 +72,7 @@ export function Profile() {
         </button>
       </header>
 
-      <Form>
+      <Form onSubmit={(e) => handleUpdate(e)}>
 
         <Avatar>
           <img 
@@ -101,7 +117,7 @@ export function Profile() {
           onChange={(e: ChangeEvent<any>) => setPasswordNew(e.target.value)}
         />
 
-        <Button title="Salvar" onClick={handleUpdate} />
+        <Button type="submit" title="Salvar" loading={loading} />
 
       </Form>
     </Container>

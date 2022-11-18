@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react"
+import { useState, ChangeEvent, FormEvent } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { Container, Form } from "./styles"
@@ -23,34 +23,60 @@ export function New() {
   const [tags, setTags] = useState<string[]>([])
   const [newTag, setNewTag] = useState("")
 
+  const [loading, setLoading] = useState(false)
+
   const navigate = useNavigate()
 
   function handleBack() {
     navigate(-1)
   }
 
-  async function hadleNewNote() {
+  async function hadleNewNote(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
     if (!title) {
       return alert("O campo título deve ser preenchido.")
     }
 
+    if (links.length === 0) {
+      return alert("O campo Links úteis deve ser preenchido com ao menos um link.")
+    }
+
+    if (tags.length === 0) {
+      return alert("O campo Marcadores deve ser preenchido com ao menos um item.")
+    }
+    
     if (newLink) {
       return alert(`Existe um link para adicionar no campo "Novo link".`)
     }
-
+    
     if (newTag) {
       return alert(`Existe uma tag para adicionar no campo "Nova tag".`)
     }
 
-    await api.post("/notes", {
-      title,
-      description,
-      tags,
-      links
-    })
+    try {
+      setLoading(true)      
+  
+      await api.post("/notes", {
+        title,
+        description,
+        tags,
+        links,
+      })
+  
+      alert("Nota criada com sucesso!")
+      navigate(-1)
 
-    alert("Nota criada com sucesso!")
-    navigate(-1)
+    } catch (error: any) {
+      if (error.response) {
+        alert(error.response.data.message)
+      } else {
+        alert("Falha ao criar a nota.")
+      }
+
+    } finally {
+      setLoading(false)
+    }
+
   }
 
   function handleAddLink() {
@@ -92,7 +118,7 @@ export function New() {
       <Header />
 
       <main>
-        <Form>
+        <Form onSubmit={(e) => hadleNewNote(e)}>
           <header>
             <h1>Criar nota</h1>
             <ButtonText
@@ -153,7 +179,12 @@ export function New() {
             </div>
           </Section>
 
-          <Button title="Salvar" onClick={hadleNewNote} />
+          <Button 
+            title="Salvar" 
+            loading={loading}
+            // onClick={(e) => hadleNewNote(e)}
+            type="submit"
+          />
 
         </Form>
       </main>

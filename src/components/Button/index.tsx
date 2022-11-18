@@ -1,10 +1,17 @@
+import { HTMLProps } from "react";
 import { Container } from "./styles";
 
-export function Button({ title, loading = false, ...rest }) {
+interface ButtonProps {
+  title: string
+  loading?: boolean
+  onClick?: () => void
+  type: "button" | "submit"
+}
+
+export function Button({ title, loading = false, ...rest }: ButtonProps) {
 
   return (
-    <Container 
-      type="button"
+    <Container
       disabled={loading}  
       {...rest}
     >

@@ -1,6 +1,12 @@
 import { Container } from "./styles";
 
-export function ButtonText({ title, isActive = false, ...rest }) {
+interface ButtonTextProps {
+  title: string
+  isActive: boolean
+  onClick: () => void
+}
+
+export function ButtonText({ title, isActive = false, ...rest }: ButtonTextProps) {
   return (
     <Container
       type="button"

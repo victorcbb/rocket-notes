@@ -100,9 +100,10 @@ export function Details() {
                 }
               </Section>
             }
-            <Button 
+            <Button
               title="Voltar" 
               onClick={handleBack} 
+              type="button"
             />          
           </Content>
         </main>

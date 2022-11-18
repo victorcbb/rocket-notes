@@ -1,3 +1,4 @@
+import { HTMLProps } from "react";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -23,7 +24,7 @@ export const Container = styled.div`
   }
 `
 
-export const Form = styled.form`
+export const Form = styled.form<HTMLProps<HTMLFormElement>>`
   max-width: 34.375rem;
   margin: 2.375rem auto;
   
