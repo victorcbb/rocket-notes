@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import { FiMail, FiLock, FiUser } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -15,7 +15,8 @@ export function SignUp() {
   
   const navigate = useNavigate()
 
-  function handleSignUp() {
+  function handleSignUp(event: FormEvent) {
+    event.preventDefault()
     setLoading(true)
 
     if (!name || !email || !password) {
@@ -49,7 +50,7 @@ export function SignUp() {
         <div></div>
       </Background>
 
-      <Form>
+      <Form onSubmit={handleSignUp}>
         <h1>Rocket Notes</h1>
         <p>Aplicação para salvar e gerenciar seus links úteis.</p>
 
@@ -80,7 +81,6 @@ export function SignUp() {
           type='submit'
           title="Cadastrar"
           loading={loading}
-          onClick={handleSignUp}
         />
 
         <Link to="/">Voltar para o login</Link>

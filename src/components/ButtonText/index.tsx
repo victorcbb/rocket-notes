@@ -2,7 +2,7 @@ import { Container } from "./styles";
 
 interface ButtonTextProps {
   title: string
-  isActive: boolean
+  isActive?: boolean
   onClick: () => void
 }
 

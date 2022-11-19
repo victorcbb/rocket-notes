@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, FormEvent, useState } from "react"
 import { FiMail, FiLock } from "react-icons/fi"
 import { Link } from "react-router-dom"
 
@@ -12,27 +12,28 @@ export function SignIn() {
   const [password, setPassword] = useState("")
 
   const { signIn, loading } = useAuth()
-  
-  function handleSignIn() {
+
+  function handleSignIn(event: FormEvent) {
+    event.preventDefault()
     signIn({ email, password })
   }
 
   return (
     <Container>
-      <Form>
+      <Form onSubmit={handleSignIn}>
         <h1>Rocket Notes</h1>
         <p>Aplicação para salvar e gerenciar seus links úteis.</p>
 
         <h2>Faça seu login</h2>
 
-        <Input 
+        <Input
           placeholder="E-mail"
           type="email"
           icon={FiMail}
           onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
         />
 
-        <Input 
+        <Input
           placeholder="Senha"
           type="password"
           icon={FiLock}
@@ -41,8 +42,7 @@ export function SignIn() {
 
         <Button
           type="submit"
-          title="Entrar" 
-          onClick={handleSignIn}
+          title="Entrar"
           loading={loading}
         />
 
