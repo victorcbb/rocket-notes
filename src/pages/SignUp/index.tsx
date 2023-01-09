@@ -17,6 +17,7 @@ export function SignUp() {
 
   function handleSignUp(event: FormEvent) {
     event.preventDefault()
+    
     setLoading(true)
 
     if (!name || !email || !password) {
